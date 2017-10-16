@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="js/main.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <title></title>
+</head>
+<body>
+
+<div class="navigation">
+    <ul id="categories-container"></ul>
+</div>
+
+<div class="container">
+    <h1 id="meal-name-container"></h1>
+    <div ><img id="meal-img-container" src="" style="max-width: 500px;"></div>
+    <div style="margin-left: 33%;margin-right: 33%;">
+        <h4>Ingredients:</h4>
+        <ul id="ingredients-container" style="text-align: left;"></ul>
+        <a href="schedule.html">COOK THIS!</a>
+    </div>
+</div>
+
+
+
+<script>
+
+    $(document).ready(function () {
+
+
+        var data = $.getJSON("js/data.json", function (json) {
+
+            $.each(json, function (index, item) {
+
+                $("#categories-container").append(
+                    "<li><a id='nav-link" + item.id + "' href='category.html?id=" + item.id + "'>" + item.name + "</a></li>");
+
+
+                    item.meals.forEach(function (meal, index) {
+
+                        if (meal.id == getUrlValue('id')) {
+                            document.title = meal.name;
+                            $("#nav-link" + item.id).css("color", "yellow");
+                            $("#meal-name-container").text(meal.name);
+                            $("#meal-img-container").attr("src","img/" + meal.img);
+
+                            meal.ingredients.forEach(function (ingredient, index) {
+
+                                $("#ingredients-container").append(
+                                    "<li>" + ingredient + "</li>");
+
+
+                            });
+
+                        }
+
+                    });
+
+
+
+            });
+
+        });
+
+
+    });
+
+</script>
+
+
+</body>
+
+</html>
+        
+
